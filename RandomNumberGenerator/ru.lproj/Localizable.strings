@@ -1,0 +1,15 @@
+/* 
+  Localizable.strings
+  RandomNumberGenerator
+
+  Created by Serega on 10.12.2021.
+  
+*/
+"Title" = "Генератор случайных чисел";
+"From" = "От:";
+"To" = "До:";
+"Generate" = "Сгенерировать";
+"Result" = "Результат: ";
+"NUM_GREATER_THAN_ANTOHER" = "Число 'от' не может быть больше числа 'до'!";
+"Incorrect input" = "Ввод некорректен или отсутствует!";
+"Copy" = "Скопировать результат";

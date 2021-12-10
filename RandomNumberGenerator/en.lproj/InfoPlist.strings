@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  RandomNumberGenerator
+
+  Created by Serega on 10.12.2021.
+  
+*/
+"CFBundleDisplayName" = "Random number generator";
+"CFBundleName" = "Random number generator";

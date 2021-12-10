@@ -1,0 +1,15 @@
+/* 
+  Localizable.strings
+  RandomNumberGenerator
+
+  Created by Serega on 10.12.2021.
+  
+*/
+"Title" = "Random number generator";
+"From" = "From:";
+"To" = "To:";
+"Generate" = "Generate";
+"Result" = "Result: ";
+"NUM_GREATER_THAN_ANTOHER" = "The number 'from' cannot be more than the number 'to'!";
+"Incorrect input" = "Input is incorrect or missing!";
+"Copy" = "Copy result";
