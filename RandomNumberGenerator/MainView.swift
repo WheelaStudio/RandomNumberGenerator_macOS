@@ -35,6 +35,7 @@ struct MainView: View {
                 }
                 viewModel.saveSettings()
             })
+            if !result.isEmpty {
             Text(viewModel.result == nil ? "" : NSLocalizedString("Result", comment: "") + result).contextMenu {
                 Button(action: {
                     let pasteboard = NSPasteboard.general
@@ -44,6 +45,7 @@ struct MainView: View {
                     Text(LocalizedStringKey("Copy"))
                 })
             }
+        }
             Spacer()
         }.alert(errorDescription, isPresented: $errorAlertIsShowed) {
             Button("OK", role: .cancel) {}
