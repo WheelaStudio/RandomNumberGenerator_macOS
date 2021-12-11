@@ -19,10 +19,10 @@ public final class MainViewModel : NSObject, ObservableObject
         var result : String
         if(newValue.lastIndexOf("-") > 0 || newValue.count(of: ".") > 1)
         {
-            result = from
+          result = self[keyPath: ref]
         } else
         {
-        result = newValue.filter { "-0123456789.".contains($0) }
+            result = newValue.filter { "-0123456789.".contains($0) }
         }
         DispatchQueue.main.async { [weak self] in
             self?[keyPath: ref] = result
@@ -35,7 +35,7 @@ public final class MainViewModel : NSObject, ObservableObject
     }
     @Published public var to = "" {
         willSet(newValue) {
-             filter(newValue: newValue, ref: \MainViewModel.to)
+            filter(newValue: newValue, ref: \MainViewModel.to)
         }
     }
     public func loadSettings()
@@ -57,16 +57,18 @@ public final class MainViewModel : NSObject, ObservableObject
         let min = Double(self.from)
         let max = Double(self.to)
         var errorDescription : String?
-        if min == nil || max == nil {
-            errorDescription = NSLocalizedString("Incorrect input", comment: "")
+        if let min = min, let max = max {
+            if min > max {
+                errorDescription = NSLocalizedString("NUM_GREATER_THAN_ANTOHER", comment: "")
+            } else
+            {
+                let minDecimalPlaces = min.decimalPlaces
+                let maxDecimalPlaces = max.decimalPlaces
+                result = model.generateNumber(min: min, max: max).rounded(toPlaces: maxDecimalPlaces > minDecimalPlaces ? maxDecimalPlaces : minDecimalPlaces)
+            }
         }
-        else if min! > max! {
-            errorDescription = NSLocalizedString("NUM_GREATER_THAN_ANTOHER", comment: "")
-        } else
-        {
-            let minDecimalPlaces = min!.decimalPlaces
-            let maxDecimalPlaces = max!.decimalPlaces
-            result = model.generateNumber(min: min!, max: max!).rounded(toPlaces: maxDecimalPlaces > minDecimalPlaces ? maxDecimalPlaces : minDecimalPlaces)
+        else {
+            errorDescription = NSLocalizedString("Incorrect input", comment: "")
         }
         completion(errorDescription)
     }

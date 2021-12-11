@@ -8,10 +8,12 @@
 import Foundation
 extension Double {
     func forTrailingZero() -> String {
-        return String(format: "%g", self)
+        let result = String(format: "%g", self)
+        return result == "-0" ? "0" : result
     }
     var decimalPlaces: Int {
-        let decimals = String(self).split(separator: ".")[1]
+        let strDouble = String(self)
+        let decimals = strDouble.contains(".") ? strDouble.split(separator: ".")[1] : "0"
         return decimals == "0" ? 0 : decimals.count
     }
     func rounded(toPlaces places:Int) -> Double {
