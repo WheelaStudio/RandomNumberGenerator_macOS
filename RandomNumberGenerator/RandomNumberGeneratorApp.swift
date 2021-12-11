@@ -11,7 +11,7 @@ import SwiftUI
 struct RandomNumberGeneratorApp: App {
     var body: some Scene {
         WindowGroup {
-            MainView().frame(width: 275, height: 90)
+            MainView().frame(width: 300, height: 95)
                 .fixedSize()
                 .onReceive(NotificationCenter.default.publisher(for: NSApplication.willUpdateNotification), perform: { _ in
                     for window in NSApplication.shared.windows {

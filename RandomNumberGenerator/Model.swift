@@ -4,11 +4,11 @@
 //
 //  Created by Serega on 10.12.2021.
 //
-
-import Foundation
 public final class Model {
     public func generateNumber(min: Double, max : Double) -> Double
     {
-            return Double.random(in: min...max)
+        let minDecimalPlaces = min.decimalPlaces
+        let maxDecimalPlaces = max.decimalPlaces
+        return Double.random(in: min...max).rounded(toPlaces: maxDecimalPlaces > minDecimalPlaces ? maxDecimalPlaces : minDecimalPlaces)
     }
 }

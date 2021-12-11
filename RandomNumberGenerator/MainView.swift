@@ -4,7 +4,6 @@
 //
 //  Created by Serega on 10.12.2021.
 //
-
 import SwiftUI
 struct MainView: View {
     @State private var result = ""
@@ -12,20 +11,26 @@ struct MainView: View {
     @State private var errorAlertIsShowed = false
     @ObservedObject private var viewModel = MainViewModel()
     @ViewBuilder
-    private func makeInputField(_ title: LocalizedStringKey, text: Binding<String>) -> some View
+    private func makeInputField(_ text: Binding<String>) -> some View
     {
-        TextField(title, text: text, prompt: nil)
+        TextField("", text: text, prompt: nil)
     }
     private var trailingZeroResult : String {
         get {
-            return viewModel.result == nil ? "" : viewModel.result!.forTrailingZero()
+            return viewModel.result == nil ? "" : viewModel.result!.stringWithoutZeroFraction
         }
     }
     var body: some View {
         VStack{
             HStack {
-                makeInputField(LocalizedStringKey("From"), text: $viewModel.from)
-                makeInputField(LocalizedStringKey("To"), text: $viewModel.to)
+                HStack(spacing: 3) {
+                    Text(LocalizedStringKey("From"))
+                    makeInputField($viewModel.from)
+                }
+                HStack(spacing: 3) {
+                    Text(LocalizedStringKey("To"))
+                    makeInputField($viewModel.to)
+                }
             }.padding(.top, 10).padding(.horizontal, 10)
             Button(LocalizedStringKey("Generate"), action: {
                 viewModel.generateNumber {
@@ -40,7 +45,7 @@ struct MainView: View {
                 viewModel.saveSettings()
             })
             if !result.isEmpty {
-                Text(viewModel.result == nil ? "" : NSLocalizedString("Result", comment: "") + result).contextMenu {
+                Text(NSLocalizedString("Result", comment: "") + result).padding(.horizontal, 5).font(.system(.title2)).minimumScaleFactor(0.5).contextMenu {
                     Button(action: {
                         let pasteboard = NSPasteboard.general
                         pasteboard.declareTypes([.string], owner: nil)

@@ -4,20 +4,19 @@
 //
 //  Created by Serega on 10.12.2021.
 //
-
-import Foundation
 import SwiftUI
 public final class MainViewModel : NSObject, ObservableObject
 {
     private let FROM_KEY = "FROM_VALUE"
     private let TO_KEY = "TO_VALUE"
     private let RESULT_KEY = "RESULT_VALUE"
+    private let MAX_INPUT = 38
     private(set) var result : Double?
     private let model = Model()
-    public func filter(newValue: String, ref: WritableKeyPath<MainViewModel, String>)
+    private func filter(newValue: String, ref: WritableKeyPath<MainViewModel, String>)
     {
         var result : String
-        if(newValue.lastIndexOf("-") > 0 || newValue.count(of: ".") > 1)
+        if(newValue.lastIndexOf("-") > 0 || newValue.count(of: ".") > 1 || newValue.count > MAX_INPUT)
         {
           result = self[keyPath: ref]
         } else
@@ -62,9 +61,7 @@ public final class MainViewModel : NSObject, ObservableObject
                 errorDescription = NSLocalizedString("NUM_GREATER_THAN_ANTOHER", comment: "")
             } else
             {
-                let minDecimalPlaces = min.decimalPlaces
-                let maxDecimalPlaces = max.decimalPlaces
-                result = model.generateNumber(min: min, max: max).rounded(toPlaces: maxDecimalPlaces > minDecimalPlaces ? maxDecimalPlaces : minDecimalPlaces)
+                result = model.generateNumber(min: min, max: max)
             }
         }
         else {
