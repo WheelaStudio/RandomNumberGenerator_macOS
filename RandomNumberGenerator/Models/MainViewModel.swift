@@ -11,8 +11,13 @@ public final class MainViewModel : NSObject, ObservableObject
     private let TO_KEY = "TO_VALUE"
     private let RESULT_KEY = "RESULT_VALUE"
     private let MAX_INPUT = 38
+    private(set) static var shared: MainViewModel!
     private(set) var result : Double?
     private let model = Model()
+    public override init() {
+        super.init()
+        MainViewModel.shared = self
+    }
     private func filter(newValue: String, ref: WritableKeyPath<MainViewModel, String>)
     {
         var result : String

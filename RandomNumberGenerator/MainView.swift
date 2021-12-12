@@ -42,7 +42,6 @@ struct MainView: View {
                         result = trailingZeroResult
                     }
                 }
-                viewModel.saveSettings()
             })
             if !result.isEmpty {
                 Text(NSLocalizedString("Result", comment: "") + result).padding(.horizontal, 5).font(.system(.title2)).minimumScaleFactor(0.5).contextMenu {

@@ -6,9 +6,9 @@
 //
 
 import SwiftUI
-
 @main
 struct RandomNumberGeneratorApp: App {
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     var body: some Scene {
         WindowGroup {
             MainView().frame(width: 300, height: 95)

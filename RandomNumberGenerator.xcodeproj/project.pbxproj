@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B42972312766076900CF90E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42972302766076900CF90E1 /* AppDelegate.swift */; };
 		B42B112D2763628E0035FD7A /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42B112C2763628E0035FD7A /* Model.swift */; };
 		B4AD6A9C2763524200E57E99 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B4AD6A9E2763524200E57E99 /* Localizable.strings */; };
 		B4AD6AA2276353AE00E57E99 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B4AD6AA4276353AE00E57E99 /* InfoPlist.strings */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B42972302766076900CF90E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B42B112C2763628E0035FD7A /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		B4AD6A9D2763524200E57E99 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B4AD6AA12763539100E57E99 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -87,6 +89,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B4297232276608E300CF90E1 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B4AD6AA5276355D600E57E99 /* MainViewModel.swift */,
+				B42B112C2763628E0035FD7A /* Model.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B42972332766090300CF90E1 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				B4C6BCFC276346CB005B7AC3 /* RandomNumberGeneratorApp.swift */,
+				B42972302766076900CF90E1 /* AppDelegate.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
 		B4C6BCF0276346CB005B7AC3 = {
 			isa = PBXGroup;
 			children = (
@@ -115,11 +135,10 @@
 				B4AD6AAB276356BC00E57E99 /* Localizable.strings */,
 				B4AD6AA4276353AE00E57E99 /* InfoPlist.strings */,
 				B4AD6AB0276356DF00E57E99 /* InfoPlist.strings */,
-				B4C6BCFC276346CB005B7AC3 /* RandomNumberGeneratorApp.swift */,
 				B4C6BCFE276346CB005B7AC3 /* MainView.swift */,
-				B4AD6AA5276355D600E57E99 /* MainViewModel.swift */,
-				B42B112C2763628E0035FD7A /* Model.swift */,
 				B4AD6AB127635BD000E57E99 /* Extensions.swift */,
+				B42972332766090300CF90E1 /* Main */,
+				B4297232276608E300CF90E1 /* Models */,
 				B4C6BD00276346CC005B7AC3 /* Assets.xcassets */,
 				B4C6BD05276346CC005B7AC3 /* RandomNumberGenerator.entitlements */,
 				B4C6BD02276346CC005B7AC3 /* Preview Content */,
@@ -287,6 +306,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B42972312766076900CF90E1 /* AppDelegate.swift in Sources */,
 				B42B112D2763628E0035FD7A /* Model.swift in Sources */,
 				B4C6BCFF276346CB005B7AC3 /* MainView.swift in Sources */,
 				B4AD6AA6276355D600E57E99 /* MainViewModel.swift in Sources */,
