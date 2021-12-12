@@ -23,7 +23,7 @@ public final class MainViewModel : NSObject, ObservableObject
         var result : String
         if(newValue.lastIndexOf("-") > 0 || newValue.count(of: ".") > 1 || newValue.count > MAX_INPUT)
         {
-          result = self[keyPath: ref]
+            result = self[keyPath: ref]
         } else
         {
             result = newValue.filter { "-0123456789.".contains($0) }

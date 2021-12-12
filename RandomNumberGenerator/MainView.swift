@@ -61,8 +61,6 @@ struct MainView: View {
             viewModel.loadSettings()
             result = trailingZeroResult
         }
-        
-        
     }
 }
 

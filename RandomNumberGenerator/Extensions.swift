@@ -20,11 +20,11 @@ extension Double {
     }
 }
 extension String {
-   public func count(of needle: Character) -> Int {
-           return reduce(0) {
-               $1 == needle ? $0 + 1 : $0
-           }
-       }
+    public func count(of needle: Character) -> Int {
+        return reduce(0) {
+            $1 == needle ? $0 + 1 : $0
+        }
+    }
     public func lastIndexOf(_ symbol: Character) -> Int
     {
         var lastIndex = -1
@@ -32,7 +32,7 @@ extension String {
         for i in 0..<arr.count {
             if(arr[i] as Character? == symbol)
             {
-                 lastIndex = i
+                lastIndex = i
             }
         }
         return lastIndex
