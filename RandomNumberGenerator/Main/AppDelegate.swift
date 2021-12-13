@@ -5,8 +5,12 @@
 //  Created by Serega on 12.12.2021.
 //
 import AppKit
-public class AppDelegate: NSObject, NSApplicationDelegate {
-    public func applicationWillTerminate(_ aNotification: Notification) {
+public final class AppDelegate: NSObject, NSApplicationDelegate {
+    public func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        MainViewModel.shared.saveSettings()
+        return true
+    }
+    public func applicationWillTerminate(_ notification: Notification) {
         MainViewModel.shared.saveSettings()
     }
     public func applicationDidFinishLaunching(_ notification: Notification) {
