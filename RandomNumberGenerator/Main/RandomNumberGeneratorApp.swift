@@ -13,7 +13,11 @@ struct RandomNumberGeneratorApp: App {
         WindowGroup {
             MainView().frame(width: 300, height: 95)
         }.commands {
-            CommandGroup(replacing: CommandGroupPlacement.newItem) {
+            CommandGroup(replacing: .newItem) {
+            }
+            CommandGroup(replacing: .help) {
+            }
+            CommandGroup(replacing: .systemServices) {
             }
         }
     }
