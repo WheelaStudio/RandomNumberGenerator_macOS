@@ -5,16 +5,24 @@
 //  Created by Serega on 10.12.2021.
 //
 extension Double {
-    var decimalPlaces: Int {
+    public func clamped(min: Double, max: Double) -> Double {
+        if self < min {
+            return min
+        } else if self > max {
+            return max
+        }
+        return self
+    }
+    public  var decimalPlaces: Int {
         let strDouble = String(self)
         let decimals = strDouble.contains(".") ? strDouble.split(separator: ".")[1] : "0"
         return decimals == "0" ? 0 : decimals.count
     }
-    func rounded(toPlaces places:Int) -> Double {
+    public func rounded(toPlaces places:Int) -> Double {
         let str = String(format: "%.\(places)f", self)
         return Double(str)!
     }
-    var stringWithoutZeroFraction: String {
+    public var stringWithoutZeroFraction: String {
         let str = truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
         return str == "-0" ? "0" : str;
     }

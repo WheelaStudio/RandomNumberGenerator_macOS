@@ -21,43 +21,70 @@ struct MainView: View {
         }
     }
     var body: some View {
-        VStack{
-            HStack {
-                HStack(spacing: 3) {
-                    Text(LocalizedStringKey("From"))
-                    makeInputField($viewModel.from)
-                }
-                HStack(spacing: 3) {
-                    Text(LocalizedStringKey("To"))
-                    makeInputField($viewModel.to)
-                }
-            }.padding(.top, 10).padding(.horizontal, 10)
-            Button(LocalizedStringKey("Generate"), action: {
-                viewModel.generateNumber {
-                    error in
-                    if let err = error {
-                        errorDescription = err
-                        errorAlertIsShowed = true
-                    } else {
-                        result = trailingZeroResult
+        TabView {
+            VStack{
+                HStack {
+                    HStack(spacing: 3) {
+                        Text(LocalizedStringKey("From"))
+                        makeInputField($viewModel.from)
+                    }
+                    HStack(spacing: 3) {
+                        Text(LocalizedStringKey("To"))
+                        makeInputField($viewModel.to)
+                    }
+                }.padding(.top, 10).padding(.horizontal, 10)
+                HStack {
+                    Toggle(LocalizedStringKey("With step"), isOn: $viewModel.withStep)
+                    makeInputField($viewModel.step).disabled(!viewModel.withStep)
+                }.padding(.horizontal, 10)
+                Button(LocalizedStringKey("Generate"), action: {
+                    viewModel.generateNumber {
+                        error in
+                        if let err = error {
+                            errorDescription = err
+                            errorAlertIsShowed = true
+                        } else {
+                            result = trailingZeroResult
+                            viewModel.history.append("(\(viewModel.from), \(viewModel.to)\(viewModel.withStep ? ", \(viewModel.step)"  : "")) = \(result)")
+                        }
+                    }
+                })
+                if !result.isEmpty {
+                    Text(NSLocalizedString("Result", comment: "") + result).padding(.horizontal, 5).font(.system(.title2)).minimumScaleFactor(0.5).contextMenu {
+                        Button(action: {
+                            let pasteboard = NSPasteboard.general
+                            pasteboard.declareTypes([.string], owner: nil)
+                            pasteboard.setString(result, forType: .string)
+                        }, label: {
+                            Text(LocalizedStringKey("Copy"))
+                        })
                     }
                 }
-            })
-            if !result.isEmpty {
-                Text(NSLocalizedString("Result", comment: "") + result).padding(.horizontal, 5).font(.system(.title2)).minimumScaleFactor(0.5).contextMenu {
-                    Button(action: {
-                        let pasteboard = NSPasteboard.general
-                        pasteboard.declareTypes([.string], owner: nil)
-                        pasteboard.setString(result, forType: .string)
-                    }, label: {
-                        Text(LocalizedStringKey("Copy"))
-                    })
-                }
+                Spacer()
+            }.tabItem {
+                Text(NSLocalizedString("Generation", comment: ""))
+            }.alert(errorDescription, isPresented: $errorAlertIsShowed) {
+                Button("OK", role: .cancel) {}
             }
-            Spacer()
-        }.alert(errorDescription, isPresented: $errorAlertIsShowed) {
-            Button("OK", role: .cancel) {}
-        }.onAppear{
+            VStack {
+                if viewModel.history.isEmpty {
+                    Text(LocalizedStringKey("HISTORY_IS_EMPTY")).font(.title2)
+                } else {
+                    List(viewModel.history.indices, id: \.self) {
+                        index in
+                        Text(viewModel.history[index]).contextMenu {
+                            Button(action: {
+                                viewModel.history.remove(at: index)
+                            }, label: {
+                                Text(LocalizedStringKey("Delete"))
+                            })
+                        }
+                    }.listStyle(.bordered(alternatesRowBackgrounds: true)).padding(2)
+                }
+            }.tabItem {
+                Text(NSLocalizedString("History", comment: ""))
+            }
+        }.onAppear {
             viewModel.loadSettings()
             result = trailingZeroResult
         }

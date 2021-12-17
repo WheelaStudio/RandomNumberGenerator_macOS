@@ -9,7 +9,13 @@
 "From" = "From:";
 "To" = "To:";
 "Generate" = "Generate";
+"History" = "History";
+"Generation" = "Generation";
 "Result" = "Result: ";
 "NUM_GREATER_THAN_ANTOHER" = "The number 'from' cannot be more than the number 'to'!";
-"Incorrect input" = "Input is incorrect or missing!";
+"Incorrect input" = "Number diapason is incorrect or missing!";
 "Copy" = "Copy result";
+"With step" = "With step: ";
+"STEP_ERROR" = "Step is incorrect!";
+"Delete" = "Delete";
+"HISTORY_IS_EMPTY" = "The history of generations is still empty!";
