@@ -24,7 +24,7 @@ extension Double {
     }
     public var stringWithoutZeroFraction: String {
         let str = truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
-        return str == "-0" ? "0" : str;
+        return str == "-0" ? "0" : str
     }
 }
 extension String {

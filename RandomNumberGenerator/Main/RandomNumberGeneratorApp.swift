@@ -11,7 +11,7 @@ struct RandomNumberGeneratorApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     var body: some Scene {
         WindowGroup {
-            MainView().frame(width: 300, height: 160)
+            MainView().frame(width: 300, height: 150)
         }.commands {
             CommandGroup(replacing: .newItem) {
             }

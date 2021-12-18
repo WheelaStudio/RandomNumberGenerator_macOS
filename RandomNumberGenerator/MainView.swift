@@ -7,18 +7,16 @@
 import SwiftUI
 struct MainView: View {
     @State private var result = ""
+    @State private var deleteDescription = ""
     @State private var errorDescription = ""
     @State private var errorAlertIsShowed = false
+    @State private var deleteAlertIsShowed = false
+    @State private var selectedItems : Set<String> = []
     @ObservedObject private var viewModel = MainViewModel()
     @ViewBuilder
     private func makeInputField(_ text: Binding<String>) -> some View
     {
         TextField("", text: text, prompt: nil)
-    }
-    private var trailingZeroResult : String {
-        get {
-            return viewModel.result == nil ? "" : viewModel.result!.stringWithoutZeroFraction
-        }
     }
     var body: some View {
         TabView {
@@ -32,25 +30,24 @@ struct MainView: View {
                         Text(LocalizedStringKey("To"))
                         makeInputField($viewModel.to)
                     }
-                }.padding(.top, 10).padding(.horizontal, 10)
+                }.padding(.top, 5).padding(.horizontal, 10)
                 HStack {
                     Toggle(LocalizedStringKey("With step"), isOn: $viewModel.withStep)
                     makeInputField($viewModel.step).disabled(!viewModel.withStep)
                 }.padding(.horizontal, 10)
-                Button(LocalizedStringKey("Generate"), action: {
+                Button(action: {
                     viewModel.generateNumber {
                         error in
                         if let err = error {
                             errorDescription = err
                             errorAlertIsShowed = true
-                        } else {
-                            result = trailingZeroResult
-                            viewModel.history.append("(\(viewModel.from), \(viewModel.to)\(viewModel.withStep ? ", \(viewModel.step)"  : "")) = \(result)")
                         }
                     }
+                }, label: {
+                    Text(LocalizedStringKey("Generate"))
                 })
-                if !result.isEmpty {
-                    Text(NSLocalizedString("Result", comment: "") + result).padding(.horizontal, 5).font(.system(.title2)).minimumScaleFactor(0.5).contextMenu {
+                if let result = viewModel.result {
+                    Text("\(NSLocalizedString("Result", comment: "")) \(result)").padding(.horizontal, 5).font(.system(.title2)).minimumScaleFactor(0.5).contextMenu {
                         Button(action: {
                             let pasteboard = NSPasteboard.general
                             pasteboard.declareTypes([.string], owner: nil)
@@ -62,7 +59,7 @@ struct MainView: View {
                 }
                 Spacer()
             }.tabItem {
-                Text(NSLocalizedString("Generation", comment: ""))
+                Text(LocalizedStringKey("Generation"))
             }.alert(errorDescription, isPresented: $errorAlertIsShowed) {
                 Button("OK", role: .cancel) {}
             }
@@ -70,23 +67,36 @@ struct MainView: View {
                 if viewModel.history.isEmpty {
                     Text(LocalizedStringKey("HISTORY_IS_EMPTY")).font(.title2)
                 } else {
-                    List(viewModel.history.indices, id: \.self) {
-                        index in
-                        Text(viewModel.history[index]).contextMenu {
-                            Button(action: {
-                                viewModel.history.remove(at: index)
-                            }, label: {
-                                Text(LocalizedStringKey("Delete"))
-                            })
+                    List(selection: $selectedItems) {
+                        ForEach(viewModel.history, id: \.self) {
+                            element in
+                            Text(element)
                         }
-                    }.listStyle(.bordered(alternatesRowBackgrounds: true)).padding(2)
+                    }.listStyle(.bordered(alternatesRowBackgrounds: true)).padding(.horizontal,2)
+                    HStack {
+                        Text("\(NSLocalizedString("GEN_COUNT", comment: "")) \(String(viewModel.history.count))")
+                        Spacer()
+                        Button(action: {
+                            deleteDescription = selectedItems.count == 0 ? NSLocalizedString("DELETE_ALL", comment: "") : NSLocalizedString("DELETE_SELECTED", comment: "")
+                            deleteAlertIsShowed = true
+                        }, label: {
+                            Image(systemName: "trash.fill")
+                        })
+                    }.padding(.horizontal)
                 }
+            }.alert(isPresented: $deleteAlertIsShowed){
+                Alert(title: Text(deleteDescription), message: nil, primaryButton: .destructive(Text(LocalizedStringKey("YES")), action: {
+                    if selectedItems.count != 0 {
+                        viewModel.history = viewModel.history.filter{ !selectedItems.contains($0) }
+                    } else {
+                        viewModel.history.removeAll()
+                    }
+                }), secondaryButton: .cancel())
             }.tabItem {
-                Text(NSLocalizedString("History", comment: ""))
+                Text(LocalizedStringKey("History"))
             }
         }.onAppear {
             viewModel.loadSettings()
-            result = trailingZeroResult
         }
     }
 }

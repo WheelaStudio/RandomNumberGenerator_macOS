@@ -15,8 +15,25 @@ public final class MainViewModel : NSObject, ObservableObject
     private let RESULT_KEY = "RESULT_VALUE"
     private let MAX_INPUT = 38
     private(set) static var shared: MainViewModel!
-    private(set) var result : Double?
+    private(set) var result : String?
     private let model = Model()
+    @Published public var step = "" {
+        willSet(newValue) {
+            filter(newValue: newValue, ref: \MainViewModel.step, haveMinus: false)
+        }
+    }
+    @Published public var withStep = false
+    @Published public var from = "" {
+        willSet(newValue) {
+            filter(newValue: newValue, ref: \MainViewModel.from)
+        }
+    }
+    @Published public var history : [String] = []
+    @Published public var to = "" {
+        willSet(newValue) {
+            filter(newValue: newValue, ref: \MainViewModel.to)
+        }
+    }
     public override init() {
         super.init()
         MainViewModel.shared = self
@@ -35,23 +52,6 @@ public final class MainViewModel : NSObject, ObservableObject
             self?[keyPath: ref] = result
         }
     }
-    @Published public var step = "" {
-        willSet(newValue) {
-            filter(newValue: newValue, ref: \MainViewModel.step, haveMinus: false)
-        }
-    }
-    @Published public var withStep = false
-    @Published public var from = "" {
-        willSet(newValue) {
-            filter(newValue: newValue, ref: \MainViewModel.from)
-        }
-    }
-    @Published public var history : [String] = []
-    @Published public var to = "" {
-        willSet(newValue) {
-            filter(newValue: newValue, ref: \MainViewModel.to)
-        }
-    }
     public func loadSettings()
     {
         let storage = UserDefaults.standard
@@ -60,7 +60,7 @@ public final class MainViewModel : NSObject, ObservableObject
         withStep = storage.bool(forKey: WITH_STEP_KEY)
         from = storage.string(forKey: FROM_KEY) ?? ""
         to = storage.string(forKey: TO_KEY) ?? ""
-        result = Double(storage.string(forKey: RESULT_KEY) ?? "")
+        result = storage.string(forKey: RESULT_KEY) ?? nil
     }
     public func saveSettings()
     {
@@ -70,7 +70,7 @@ public final class MainViewModel : NSObject, ObservableObject
         storage.set(withStep, forKey: WITH_STEP_KEY)
         storage.set(from, forKey: FROM_KEY)
         storage.set(to, forKey: TO_KEY)
-        storage.set(result == nil ? "" : String(result!), forKey: RESULT_KEY)
+        storage.set(result, forKey: RESULT_KEY)
     }
     public func generateNumber(completion: (String?) -> Void)
     {
@@ -87,7 +87,11 @@ public final class MainViewModel : NSObject, ObservableObject
             }
             else
             {
-                result = model.generateNumber(min: min, max: max, step: step)
+                result = model.generateNumber(min: min, max: max, step: step).stringWithoutZeroFraction
+                if history.count >= 100 {
+                    history.remove(at: 0)
+                }
+                history.append("(\(from), \(to)\(withStep ? ", \(step!)"  : "")) = \(result!)")
             }
         }
         else {

@@ -19,3 +19,7 @@
 "STEP_ERROR" = "Step is incorrect!";
 "Delete" = "Delete";
 "HISTORY_IS_EMPTY" = "The history of generations is still empty!";
+"DELETE_SELECTED" = "Delete selected item/items?";
+"DELETE_ALL" = "Delete all items?";
+"YES" = "Yes";
+"GEN_COUNT" = "Generated numbers: ";
