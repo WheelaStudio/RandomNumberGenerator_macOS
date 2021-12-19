@@ -88,6 +88,7 @@ struct MainView: View {
                 Alert(title: Text(deleteDescription), message: nil, primaryButton: .destructive(Text(LocalizedStringKey("YES")), action: {
                     if selectedItems.count != 0 {
                         viewModel.history = viewModel.history.filter{ !selectedItems.contains($0) }
+                        selectedItems.removeAll()
                     } else {
                         viewModel.history.removeAll()
                     }
