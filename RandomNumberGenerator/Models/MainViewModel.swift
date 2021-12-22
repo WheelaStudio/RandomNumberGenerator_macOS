@@ -72,6 +72,22 @@ public final class MainViewModel : NSObject, ObservableObject
         storage.set(to, forKey: TO_KEY)
         storage.set(result, forKey: RESULT_KEY)
     }
+    public func applyToInterface(_ value: String) {
+        let regex = try! NSRegularExpression(pattern: "[0-9]{1,}.[0-9]{1,}|[0-9]{1,}", options: [])
+        let nsString = value as NSString
+        let results = regex.matches(in: value, options: [], range: NSMakeRange(0, nsString.length))
+        let numbers = results.map{nsString.substring(with: $0.range)}
+        from = numbers[0]
+        to = numbers[1]
+        result = numbers.last!
+        if numbers.count == 4 {
+            step = numbers[2]
+            withStep = true
+        } else {
+            step = ""
+            withStep = false
+        }
+    }
     public func generateNumber(completion: (String?) -> Void)
     {
         let min = Double(self.from)
@@ -91,7 +107,7 @@ public final class MainViewModel : NSObject, ObservableObject
                 if history.count >= 100 {
                     history.remove(at: 0)
                 }
-                history.append("(\(from), \(to)\(withStep ? ", \(step!)"  : "")) = \(result!)")
+                history.append("(\(from), \(to)\(withStep ? ", \(step!.stringWithoutZeroFraction)"  : "")) = \(result!)")
             }
         }
         else {

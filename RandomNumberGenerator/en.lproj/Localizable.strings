@@ -22,4 +22,5 @@
 "DELETE_SELECTED" = "Delete selected item/items?";
 "DELETE_ALL" = "Delete all items?";
 "YES" = "Yes";
-"GEN_COUNT" = "Generated numbers: ";
+"HISTORY_DESCRIPTION" = "(from, to, step) = result";
+"APPLY_TO_INTERFACE" = "Apply calculation data to interface";

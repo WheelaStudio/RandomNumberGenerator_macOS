@@ -12,6 +12,7 @@ struct MainView: View {
     @State private var errorAlertIsShowed = false
     @State private var deleteAlertIsShowed = false
     @State private var selectedItems : Set<String> = []
+    @State private var selection = 0
     @ObservedObject private var viewModel = MainViewModel()
     @ViewBuilder
     private func makeInputField(_ text: Binding<String>) -> some View
@@ -19,7 +20,7 @@ struct MainView: View {
         TextField("", text: text, prompt: nil)
     }
     var body: some View {
-        TabView {
+        TabView(selection: $selection) {
             VStack{
                 HStack {
                     HStack(spacing: 3) {
@@ -58,7 +59,7 @@ struct MainView: View {
                     }
                 }
                 Spacer()
-            }.tabItem {
+            }.tag(0).tabItem {
                 Text(LocalizedStringKey("Generation"))
             }.alert(errorDescription, isPresented: $errorAlertIsShowed) {
                 Button("OK", role: .cancel) {}
@@ -70,11 +71,18 @@ struct MainView: View {
                     List(selection: $selectedItems) {
                         ForEach(viewModel.history, id: \.self) {
                             element in
-                            Text(element)
+                            Text(element).contextMenu{
+                                if selectedItems.count < 2 {
+                                    Button(LocalizedStringKey("APPLY_TO_INTERFACE")) {
+                                        viewModel.applyToInterface(element)
+                                        selection = 0
+                                    }
+                                }
+                            }
                         }
                     }.listStyle(.bordered(alternatesRowBackgrounds: true)).padding(.horizontal,2)
                     HStack {
-                        Text("\(NSLocalizedString("GEN_COUNT", comment: "")) \(String(viewModel.history.count))")
+                        Text(LocalizedStringKey("HISTORY_DESCRIPTION"))
                         Spacer()
                         Button(action: {
                             deleteDescription = selectedItems.count == 0 ? NSLocalizedString("DELETE_ALL", comment: "") : NSLocalizedString("DELETE_SELECTED", comment: "")
@@ -93,7 +101,7 @@ struct MainView: View {
                         viewModel.history.removeAll()
                     }
                 }), secondaryButton: .cancel())
-            }.tabItem {
+            }.tag(1).tabItem {
                 Text(LocalizedStringKey("History"))
             }
         }.onAppear {
