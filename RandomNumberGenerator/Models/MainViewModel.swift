@@ -14,12 +14,13 @@ public final class MainViewModel : NSObject, ObservableObject
     private let TO_KEY = "TO_VALUE"
     private let RESULT_KEY = "RESULT_VALUE"
     private let MAX_INPUT = 38
+    private(set) var stepIsAvailable = true
     private(set) static var shared: MainViewModel!
     private(set) var result : String?
     private let model = Model()
     @Published public var step = "" {
         willSet(newValue) {
-            filter(newValue: newValue, ref: \MainViewModel.step, haveMinus: false)
+            filter(newValue: newValue, ref: \MainViewModel.step, haveMinusAndDot: false)
         }
     }
     @Published public var withStep = false
@@ -38,16 +39,17 @@ public final class MainViewModel : NSObject, ObservableObject
         super.init()
         MainViewModel.shared = self
     }
-    private func filter(newValue: String, ref: WritableKeyPath<MainViewModel, String>, haveMinus : Bool = true)
+    private func filter(newValue: String, ref: WritableKeyPath<MainViewModel, String>, haveMinusAndDot : Bool = true)
     {
         var result : String
-        if (newValue.count > MAX_INPUT || newValue.lastIndexOf("-") > 0 || haveMinus ? newValue.count(of: ".") > 1 : false)
+        if (haveMinusAndDot && (newValue.count > MAX_INPUT || newValue.lastIndexOf("-") > 0 || newValue.count(of: ".") > 1))
         {
             result = self[keyPath: ref]
         } else
         {
-            result = newValue.filter { (haveMinus ? "-0123456789." : "0123456789.").contains($0) }
+            result = newValue.filter { (haveMinusAndDot ? "-0123456789." : "0123456789").contains($0) }
         }
+        stepIsAvailable = Int(to) != nil && Int(from) != nil
         DispatchQueue.main.async { [weak self] in
             self?[keyPath: ref] = result
         }
@@ -94,11 +96,11 @@ public final class MainViewModel : NSObject, ObservableObject
         let max = Double(self.to)
         var errorDescription : String?
         if let min = min, let max = max  {
-            let step = Double(step)
+            let step = stepIsAvailable && withStep ? Double(step) : nil
             if min > max {
                 errorDescription = NSLocalizedString("NUM_GREATER_THAN_ANTOHER", comment: "")
             }
-            else if withStep && (step != nil ? max - min < step! : true) {
+            else if withStep && stepIsAvailable && (step != nil ? max - min < step! : true) {
                 errorDescription = NSLocalizedString("STEP_ERROR", comment: "")
             }
             else
@@ -107,7 +109,7 @@ public final class MainViewModel : NSObject, ObservableObject
                 if history.count >= 100 {
                     history.remove(at: 0)
                 }
-                history.append("(\(from), \(to)\(withStep ? ", \(step!.stringWithoutZeroFraction)"  : "")) = \(result!)")
+                history.append("(\(from), \(to)\(step != nil ? ", \(step!.stringWithoutZeroFraction)"  : "")) = \(result!)")
             }
         }
         else {

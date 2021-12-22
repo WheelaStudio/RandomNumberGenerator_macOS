@@ -11,7 +11,7 @@ struct MainView: View {
     @State private var errorDescription = ""
     @State private var errorAlertIsShowed = false
     @State private var deleteAlertIsShowed = false
-    @State private var selectedItems : Set<String> = []
+    @State private var selectedItems : Set<Int> = []
     @State private var selection = 0
     @ObservedObject private var viewModel = MainViewModel()
     @ViewBuilder
@@ -33,8 +33,9 @@ struct MainView: View {
                     }
                 }.padding(.top, 5).padding(.horizontal, 10)
                 HStack {
-                    Toggle(LocalizedStringKey("With step"), isOn: $viewModel.withStep)
-                    makeInputField($viewModel.step).disabled(!viewModel.withStep)
+                    let stepIsDisabled = !viewModel.stepIsAvailable
+                    Toggle(LocalizedStringKey("With step"), isOn: $viewModel.withStep).disabled(stepIsDisabled)
+                    makeInputField($viewModel.step).disabled(!viewModel.withStep || stepIsDisabled)
                 }.padding(.horizontal, 10)
                 Button(action: {
                     viewModel.generateNumber {
@@ -69,12 +70,12 @@ struct MainView: View {
                     Text(LocalizedStringKey("HISTORY_IS_EMPTY")).font(.title2)
                 } else {
                     List(selection: $selectedItems) {
-                        ForEach(viewModel.history, id: \.self) {
-                            element in
-                            Text(element).contextMenu{
+                        ForEach(viewModel.history.indices, id: \.self) {
+                            index in
+                            Text(viewModel.history[index]).contextMenu{
                                 if selectedItems.count < 2 {
                                     Button(LocalizedStringKey("APPLY_TO_INTERFACE")) {
-                                        viewModel.applyToInterface(element)
+                                        viewModel.applyToInterface(viewModel.history[index])
                                         selection = 0
                                     }
                                 }
@@ -95,8 +96,12 @@ struct MainView: View {
             }.alert(isPresented: $deleteAlertIsShowed){
                 Alert(title: Text(deleteDescription), message: nil, primaryButton: .destructive(Text(LocalizedStringKey("YES")), action: {
                     if selectedItems.count != 0 {
-                        viewModel.history = viewModel.history.filter{ !selectedItems.contains($0) }
-                        selectedItems.removeAll()
+                        var selectedItems = Array<String>(repeating: "", count: selectedItems.count)
+                        for i in 0..<selectedItems.count {
+                            selectedItems[i] = viewModel.history[self.selectedItems[self.selectedItems.index(self.selectedItems.startIndex, offsetBy: i)]]
+                        }
+                        viewModel.history = viewModel.history.filter{ !selectedItems.contains($0)}
+                        self.selectedItems.removeAll()
                     } else {
                         viewModel.history.removeAll()
                     }
