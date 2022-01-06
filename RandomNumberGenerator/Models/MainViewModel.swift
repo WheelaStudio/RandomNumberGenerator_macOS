@@ -5,7 +5,8 @@
 //  Created by Serega on 10.12.2021.
 //
 import SwiftUI
-public final class MainViewModel : NSObject, ObservableObject
+import Combine
+public final class MainViewModel : ObservableObject
 {
     private let HISTORY_KEY = "HISTORY_VALUE"
     private let STEP_KEY = "STEP_VALUE"
@@ -17,30 +18,40 @@ public final class MainViewModel : NSObject, ObservableObject
     private(set) var stepIsAvailable = true
     private(set) static var shared: MainViewModel!
     private(set) var result : String?
+    private var fromCancellable : AnyCancellable?
+    private var toCancellable : AnyCancellable?
+    private var stepCancellable : AnyCancellable?
     private let model = Model()
-    @Published public var step = "" {
-        willSet(newValue) {
+    @Published public var step = ""
+    @Published public var withStep = false
+    @Published public var from = ""
+    @Published public var history : [String] = []
+    @Published public var to = ""
+    public init() {
+        MainViewModel.shared = self
+        fromCancellable =  $from.sink {
+            [self] newValue in
+            filter(newValue: newValue, ref: \MainViewModel.from)
+        }
+        toCancellable =  $to.sink {
+            [self] newValue in
+            filter(newValue: newValue, ref: \MainViewModel.to)
+        }
+        stepCancellable =  $step.sink {
+            [self] newValue in
             filter(newValue: newValue, ref: \MainViewModel.step, haveMinusAndDot: false)
         }
     }
-    @Published public var withStep = false
-    @Published public var from = "" {
-        willSet(newValue) {
-            filter(newValue: newValue, ref: \MainViewModel.from)
-        }
-    }
-    @Published public var history : [String] = []
-    @Published public var to = "" {
-        willSet(newValue) {
-            filter(newValue: newValue, ref: \MainViewModel.to)
-        }
-    }
-    public override init() {
-        super.init()
-        MainViewModel.shared = self
+    deinit {
+        fromCancellable?.cancel()
+        toCancellable?.cancel()
+        stepCancellable?.cancel()
     }
     private func filter(newValue: String, ref: WritableKeyPath<MainViewModel, String>, haveMinusAndDot : Bool = true)
     {
+        if newValue == self[keyPath: ref] {
+            return
+        }
         var result : String
         if (haveMinusAndDot && (newValue.count > MAX_INPUT || newValue.lastIndexOf("-") > 0 || newValue.count(of: ".") > 1))
         {
@@ -49,9 +60,11 @@ public final class MainViewModel : NSObject, ObservableObject
         {
             result = newValue.filter { (haveMinusAndDot ? "-0123456789." : "0123456789").contains($0) }
         }
-        stepIsAvailable = Int(to) != nil && Int(from) != nil
         DispatchQueue.main.async { [weak self] in
-            self?[keyPath: ref] = result
+            if var strongSelf = self {
+                strongSelf[keyPath: ref] = result
+                strongSelf.stepIsAvailable = Int(strongSelf.to) != nil && Int(strongSelf.from) != nil
+            }
         }
     }
     public func loadSettings()
