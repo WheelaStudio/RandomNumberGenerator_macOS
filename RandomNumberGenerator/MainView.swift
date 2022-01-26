@@ -49,11 +49,11 @@ struct MainView: View {
                     Text(LocalizedStringKey("Generate"))
                 })
                 if let result = viewModel.result {
-                    Text("\(NSLocalizedString("Result", comment: "")) \(result)").padding(.horizontal, 5).font(.system(.title2)).minimumScaleFactor(0.5).contextMenu {
+                    Text("\(NSLocalizedString("Result", comment: "")) \(result.formattedWithSeparator)").padding(.horizontal, 5).font(.system(.title2)).minimumScaleFactor(0.5).contextMenu {
                         Button(action: {
                             let pasteboard = NSPasteboard.general
                             pasteboard.declareTypes([.string], owner: nil)
-                            pasteboard.setString(result, forType: .string)
+                            pasteboard.setString(result.stringWithoutZeroFraction, forType: .string)
                         }, label: {
                             Text(LocalizedStringKey("Copy"))
                         })

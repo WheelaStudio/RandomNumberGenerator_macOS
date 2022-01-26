@@ -4,6 +4,29 @@
 //
 //  Created by Serega on 10.12.2021.
 //
+import Foundation
+extension UserDefaults {
+    func isKeyPresentInUserDefaults(key: String) -> Bool {
+        return self.object(forKey: key) != nil
+    }
+}
+extension NumberFormatter {
+    static let withSeparator: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = .max
+        formatter.groupingSeparator = " "
+        return formatter
+    }()
+}
+extension Double {
+    var formattedWithSeparator: String {
+        let components = String(self).components(separatedBy: ".")
+        let integers = NumberFormatter.withSeparator.string(for: Int(components[0])!)
+        let floats = components[1]
+        return "\(integers!)\(floats == "0" ? "" : ",\(floats)")"
+    }
+}
 extension Double {
     public func clamped(min: Double, max: Double) -> Double {
         if self < min {

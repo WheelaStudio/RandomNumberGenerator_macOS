@@ -17,7 +17,7 @@ public final class MainViewModel : ObservableObject
     private let MAX_INPUT = 38
     private(set) var stepIsAvailable = true
     private(set) static var shared: MainViewModel!
-    private(set) var result : String?
+    private(set) var result : Double?
     private var fromCancellable : AnyCancellable?
     private var toCancellable : AnyCancellable?
     private var stepCancellable : AnyCancellable?
@@ -75,7 +75,7 @@ public final class MainViewModel : ObservableObject
         withStep = storage.bool(forKey: WITH_STEP_KEY)
         from = storage.string(forKey: FROM_KEY) ?? ""
         to = storage.string(forKey: TO_KEY) ?? ""
-        result = storage.string(forKey: RESULT_KEY) ?? nil
+        self.result = storage.isKeyPresentInUserDefaults(key: RESULT_KEY) ? storage.double(forKey: RESULT_KEY) : nil
     }
     public func saveSettings()
     {
@@ -94,7 +94,7 @@ public final class MainViewModel : ObservableObject
         let numbers = results.map{nsString.substring(with: $0.range)}
         from = numbers[0]
         to = numbers[1]
-        result = numbers.last!
+        result = Double(numbers.last!)!
         if numbers.count == 4 {
             step = numbers[2]
             withStep = true
@@ -118,7 +118,7 @@ public final class MainViewModel : ObservableObject
             }
             else
             {
-                result = model.generateNumber(min: min, max: max, step: step).stringWithoutZeroFraction
+                result = model.generateNumber(min: min, max: max, step: step)
                 if history.count >= 100 {
                     history.remove(at: 0)
                 }
