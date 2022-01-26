@@ -14,7 +14,6 @@ extension NumberFormatter {
     static let withSeparator: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = .max
         formatter.groupingSeparator = " "
         return formatter
     }()
