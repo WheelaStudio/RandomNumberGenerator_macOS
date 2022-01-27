@@ -122,7 +122,7 @@ public final class MainViewModel : ObservableObject
                 if history.count >= 100 {
                     history.remove(at: 0)
                 }
-                history.append("(\(from), \(to)\(step != nil ? ", \(step!.stringWithoutZeroFraction)"  : "")) = \(result!)")
+                history.append("(\(from), \(to)\(step != nil ? ", \(step!.stringWithoutZeroFraction)"  : "")) = \(result!.stringWithoutZeroFraction)")
             }
         }
         else {
