@@ -1,0 +1,25 @@
+/* 
+  Localizable.strings
+  RandomNumberGenerator
+
+  Created by Serega on 06.02.2022.
+  
+*/
+"FROM" = "Von:";
+"TO" = "An:";
+"GENERATE" = "Generieren";
+"HISTORY" = "Geschichte";
+"GENERATION" = "Generation";
+"RESULT" = "Ergebnis: ";
+"NUM_GREATER_THAN_ANTOHER" = "Die Zahl „von“ darf nicht größer sein als die Zahl „bis“!";
+"INCORRECT_INPUT" = "Der Nummernkreis ist ungültig oder fehlt!";
+"COPY" = "Ergebnis kopieren";
+"WITH_STEP" = "Mit Schritt: ";
+"STEP_ERROR" = "Schritt falsch eingegeben!";
+"DELETE" = "Löschen";
+"HISTORY_IS_EMPTY" = "Generationsverlauf ist noch leer!";
+"DELETE_SELECTED" = "Möchten Sie die ausgewählten Elemente löschen?";
+"DELETE_ALL" = "Möchten Sie alle Elemente löschen?";
+"YES" = "Ja";
+"HISTORY_DESCRIPTION" = "(von, bis, Schritt) = Ergebnis";
+"APPLY_TO_INTERFACE" = "Berechnungsdaten auf Schnittstelle anwenden";

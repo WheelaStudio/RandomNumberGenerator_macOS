@@ -1,23 +1,22 @@
-/* 
+/*
   Localizable.strings
   RandomNumberGenerator
 
   Created by Serega on 10.12.2021.
   
 */
-"Title" = "Генератор случайных чисел";
-"From" = "От:";
-"To" = "До:";
-"Generate" = "Сгенерировать";
-"History" = "История";
-"Generation" = "Генерация";
-"Result" = "Результат: ";
+"FROM" = "От:";
+"TO" = "До:";
+"GENERATE" = "Сгенерировать";
+"HISTORY" = "История";
+"GENERATION" = "Генерация";
+"RESULT" = "Результат: ";
 "NUM_GREATER_THAN_ANTOHER" = "Число 'от' не может быть больше числа 'до'!";
-"Incorrect input" = "Диапазон чисел некорректен или отсутствует!";
-"Copy" = "Скопировать результат";
-"With step" = "С шагом: ";
+"INCORRECT_INPUT" = "Диапазон чисел некорректен или отсутствует!";
+"COPY" = "Скопировать результат";
+"WITH_STEP" = "С шагом: ";
 "STEP_ERROR" = "Шаг введён некорректно!";
-"Delete" = "Удалить";
+"DELETE" = "Удалить";
 "HISTORY_IS_EMPTY" = "История генераций пока пуста!";
 "DELETE_SELECTED" = "Удалить выбранный/е пункт(ы)?";
 "DELETE_ALL" = "Удалить все пункты?";

@@ -24,17 +24,17 @@ struct MainView: View {
             VStack{
                 HStack {
                     HStack(spacing: 3) {
-                        Text(LocalizedStringKey("From"))
+                        Text(LocalizedStringKey("FROM"))
                         makeInputField($viewModel.from)
                     }
                     HStack(spacing: 3) {
-                        Text(LocalizedStringKey("To"))
+                        Text(LocalizedStringKey("TO"))
                         makeInputField($viewModel.to)
                     }
                 }.padding(.top, 5).padding(.horizontal, 10)
                 HStack {
                     let stepIsDisabled = !viewModel.stepIsAvailable
-                    Toggle(LocalizedStringKey("With step"), isOn: $viewModel.withStep).disabled(stepIsDisabled)
+                    Toggle(LocalizedStringKey("WITH_STEP"), isOn: $viewModel.withStep).disabled(stepIsDisabled)
                     makeInputField($viewModel.step).disabled(!viewModel.withStep || stepIsDisabled)
                 }.padding(.horizontal, 10)
                 Button(action: {
@@ -46,22 +46,22 @@ struct MainView: View {
                         }
                     }
                 }, label: {
-                    Text(LocalizedStringKey("Generate"))
+                    Text(LocalizedStringKey("GENERATE"))
                 })
                 if let result = viewModel.result {
-                    Text("\(NSLocalizedString("Result", comment: "")) \(result.formattedWithSeparator)").padding(.horizontal, 5).font(.system(.title2)).minimumScaleFactor(0.5).contextMenu {
+                    Text("\(NSLocalizedString("RESULT", comment: "")) \(result.formattedWithSeparator)").padding(.horizontal, 5).font(.system(.title2)).minimumScaleFactor(0.5).contextMenu {
                         Button(action: {
                             let pasteboard = NSPasteboard.general
                             pasteboard.declareTypes([.string], owner: nil)
                             pasteboard.setString(result.stringWithoutZeroFraction, forType: .string)
                         }, label: {
-                            Text(LocalizedStringKey("Copy"))
+                            Text(LocalizedStringKey("COPY"))
                         })
                     }
                 }
                 Spacer()
             }.tag(0).tabItem {
-                Text(LocalizedStringKey("Generation"))
+                Text(LocalizedStringKey("GENERATION"))
             }.alert(errorDescription, isPresented: $errorAlertIsShowed) {
                 Button("OK", role: .cancel) {}
             }
@@ -107,7 +107,7 @@ struct MainView: View {
                     }
                 }), secondaryButton: .cancel())
             }.tag(1).tabItem {
-                Text(LocalizedStringKey("History"))
+                Text(LocalizedStringKey("HISTORY"))
             }
         }.onAppear {
             viewModel.loadSettings()

@@ -126,7 +126,7 @@ public final class MainViewModel : ObservableObject
             }
         }
         else {
-            errorDescription = NSLocalizedString("Incorrect input", comment: "")
+            errorDescription = NSLocalizedString("INCORRECT_INPUT", comment: "")
         }
         completion(errorDescription)
     }

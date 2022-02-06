@@ -1,23 +1,22 @@
-/* 
+/*
   Localizable.strings
   RandomNumberGenerator
 
   Created by Serega on 10.12.2021.
   
 */
-"Title" = "Random number generator";
-"From" = "From:";
-"To" = "To:";
-"Generate" = "Generate";
-"History" = "History";
-"Generation" = "Generation";
-"Result" = "Result: ";
+"FROM" = "From:";
+"TO" = "To:";
+"GENERATE" = "Generate";
+"HISTORY" = "History";
+"GENERATION" = "Generation";
+"RESULT" = "Result: ";
 "NUM_GREATER_THAN_ANTOHER" = "The number 'from' cannot be more than the number 'to'!";
-"Incorrect input" = "Number diapason is incorrect or missing!";
-"Copy" = "Copy result";
-"With step" = "With step: ";
+"INCORRECT_INPUT" = "Number diapason is incorrect or missing!";
+"COPY" = "Copy result";
+"WITH_STEP" = "With step: ";
 "STEP_ERROR" = "Step is incorrect!";
-"Delete" = "Delete";
+"DELETE" = "Delete";
 "HISTORY_IS_EMPTY" = "The history of generations is still empty!";
 "DELETE_SELECTED" = "Delete selected item/items?";
 "DELETE_ALL" = "Delete all items?";

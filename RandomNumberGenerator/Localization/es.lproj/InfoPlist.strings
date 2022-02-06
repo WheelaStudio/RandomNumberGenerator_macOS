@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  RandomNumberGenerator
+
+  Created by Serega on 06.02.2022.
+  
+*/
+"CFBundleDisplayName" = "Generador de números aleatorios";
+"CFBundleName" = "Generador de números aleatorios";
