@@ -5,5 +5,5 @@ There is step support for integer spans.
 This app localized on six languages: English, Russian, German, Italian, French and Spanish.
 ## Generation screen
 <img src="https://i.imgur.com/RqRybK4.jpeg">
-## History screen
+### History screen
 <img src="https://i.imgur.com/N8g2fPM.jpeg">
