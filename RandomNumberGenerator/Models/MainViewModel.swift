@@ -113,7 +113,7 @@ public final class MainViewModel : ObservableObject
             if min > max {
                 errorDescription = NSLocalizedString("NUM_GREATER_THAN_ANTOHER", comment: "")
             }
-            else if withStep && stepIsAvailable && (step != nil ? max - min < step! : true) {
+            else if withStep && stepIsAvailable && (step != nil ? max - min < step! || step == 0 : true) {
                 errorDescription = NSLocalizedString("STEP_ERROR", comment: "")
             }
             else
