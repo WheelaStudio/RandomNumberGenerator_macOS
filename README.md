@@ -5,8 +5,7 @@ The program can generate random numbers in any intervals, including intervals wi
 \
 There is step support for integer spans\
 \
-This app localized on six languages: English, Russian, German, Italian, French and Spanish\
-\
+This app localized on six languages: English, Russian, German, Italian, French and Spanish
 ## Generation screen
 <img src="https://i.imgur.com/RqRybK4.jpeg">
 
