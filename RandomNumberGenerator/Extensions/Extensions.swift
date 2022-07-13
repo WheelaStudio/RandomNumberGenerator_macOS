@@ -25,8 +25,6 @@ extension Double {
         let floats = components[1]
         return "\(integers!)\(floats == "0" ? "" : ",\(floats)")"
     }
-}
-extension Double {
     public func clamped(min: Double, max: Double) -> Double {
         if self < min {
             return min

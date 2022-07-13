@@ -73,7 +73,7 @@ struct MainView: View {
                         ForEach(viewModel.history.indices, id: \.self) {
                             index in
                             Text(viewModel.history[index]).contextMenu{
-                                if selectedItems.count < 2 {
+                                if selectedItems.count == 1 {
                                     Button(LocalizedStringKey("APPLY_TO_INTERFACE")) {
                                         viewModel.applyToInterface(viewModel.history[index])
                                         selection = 0
